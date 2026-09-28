@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>zimran.test Deal Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F7F6FB; --surface:#FFFFFF; --ink:#17122E; --muted:#5E5878; --line:#E2DEF2;
+  --accent:#5B45DC; --accent-soft:#E7E2FB; --loss:#C4531A; --loss-soft:#FBEBE2; --win:#2F7D5B; --win-soft:#E1F2EA;
+  --zone:#EEEBFB; --grid:#E6E2F4;
+  --display:'Bricolage Grotesque', 'Arial Narrow', Arial, sans-serif;
+  --body:'IBM Plex Sans', Arial, sans-serif; --mono:'IBM Plex Mono', 'Courier New', monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121022; --surface:#1C1834; --ink:#ECE9F8; --muted:#A8A2C6; --line:#2E2850;
+    --accent:#9D8FF0; --accent-soft:#2A2352; --loss:#F29A6B; --loss-soft:#3A2220; --win:#6FCB9F; --win-soft:#17332A;
+    --zone:#221D42; --grid:#2A2548; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121022; --surface:#1C1834; --ink:#ECE9F8; --muted:#A8A2C6; --line:#2E2850;
+  --accent:#9D8FF0; --accent-soft:#2A2352; --loss:#F29A6B; --loss-soft:#3A2220; --win:#6FCB9F; --win-soft:#17332A;
+  --zone:#221D42; --grid:#2A2548; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.55; padding-inline:clamp(16px,4vw,48px); padding-block:32px 64px}
+.wrap{max-width:1180px; margin-inline:auto; display:flex; flex-direction:column; gap:56px}
+h1,h2,h3{font-family:var(--display); line-height:1.08; text-wrap:balance; margin:0}
+h1{font-size:clamp(34px,5.4vw,64px); font-weight:800; letter-spacing:-0.02em}
+h2{font-size:clamp(26px,3.2vw,38px); font-weight:700; letter-spacing:-0.01em}
+h3{font-size:20px; font-weight:700}
+p{margin:0}
+.eyebrow{font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent)}
+.lede{max-width:64ch; color:var(--muted); font-size:18px}
+.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
+header{display:flex; flex-direction:column; gap:16px; padding-top:8px}
+.byline{display:flex; flex-wrap:wrap; gap:8px 20px; color:var(--muted); font-size:14px}
+.byline b{color:var(--ink); font-weight:600}
+
+/* tool */
+.tool{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:24px; align-items:start}
+@media (max-width:900px){.tool{grid-template-columns:1fr}}
+.panels, #panels{display:flex; flex-direction:column; gap:14px}
+.presets{display:flex; flex-wrap:wrap; gap:8px}
+button{font:inherit; font-size:14px; font-weight:600; border-radius:999px; padding:8px 16px; border:1.5px solid var(--accent); background:transparent; color:var(--accent); cursor:pointer}
+button[aria-pressed="true"]{background:var(--accent); color:var(--bg)}
+button:focus-visible, input:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px 18px 16px; display:flex; flex-direction:column; gap:12px}
+.panel-head{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap}
+.panel-head small{color:var(--muted); font-size:13px}
+.ctrl{display:grid; grid-template-columns:minmax(0,1fr) 84px; gap:4px 12px; align-items:center}
+.ctrl label{font-size:14px; color:var(--muted)}
+.ctrl output{font-family:var(--mono); font-size:14px; text-align:right; color:var(--ink)}
+.ctrl input{grid-column:1 / -1; width:100%; accent-color:var(--accent)}
+.rois{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.chip{border-radius:10px; padding:8px 10px; display:flex; flex-direction:column; gap:0}
+.chip span{font-size:12px; letter-spacing:.06em; text-transform:uppercase}
+.chip b{font-family:var(--mono); font-size:20px; font-weight:500}
+.chip.pos{background:var(--win-soft); color:var(--win)}
+.chip.neg{background:var(--loss-soft); color:var(--loss)}
+.zone{display:flex; flex-direction:column; gap:6px}
+.zone-bar{position:relative; height:10px; border-radius:6px; background:var(--grid)}
+.zone-fill{position:absolute; top:0; bottom:0; border-radius:6px; background:var(--accent-soft); border:1.5px solid var(--accent)}
+.zone-mark{position:absolute; top:-5px; width:4px; height:20px; border-radius:2px; background:var(--ink); transform:translateX(-2px)}
+.zone-text{font-size:13px; color:var(--muted)}
+.zone-text b{color:var(--ink); font-weight:600}
+
+.chart-card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; display:flex; flex-direction:column; gap:12px; position:sticky; top:calc(env(safe-area-inset-top,0px) + 16px)}
+@media (max-width:900px){.chart-card{position:static}}
+.chart-card svg{width:100%; height:auto; display:block}
+.legend{display:flex; flex-wrap:wrap; gap:6px 18px; font-size:13px; color:var(--muted)}
+.totals{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.total{border-top:2px solid var(--line); padding-top:8px}
+.total span{font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.total b{display:block; font-family:var(--mono); font-weight:500; font-size:clamp(20px,2.4vw,26px)}
+.verdict{font-size:15px}
+
+/* table */
+.tbl{overflow-x:auto; border:1px solid var(--line); border-radius:14px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; min-width:640px; font-size:14px}
+th,td{padding:10px 14px; text-align:right; border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600}
+tbody td{font-family:var(--mono)}
+tbody td:first-child{font-family:var(--body); color:var(--muted)}
+tbody tr:last-child td{border-bottom:none}
+
+/* insight + extras */
+.insight{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px}
+@media (max-width:820px){.insight{grid-template-columns:1fr}}
+.insight article{display:flex; flex-direction:column; gap:8px; border-top:3px solid var(--accent); padding-top:14px}
+.insight p{color:var(--muted)}
+.extras{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px}
+@media (max-width:820px){.extras{grid-template-columns:1fr}}
+.extra{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px; display:flex; flex-direction:column; gap:14px}
+.kpis{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px}
+.kpi b{display:block; font-family:var(--mono); font-weight:500; font-size:22px}
+.kpi span{font-size:12px; color:var(--muted)}
+.bars{display:flex; flex-direction:column; gap:8px}
+.bar-row{display:grid; grid-template-columns:minmax(0,190px) minmax(0,1fr) 44px; gap:10px; align-items:center; font-size:13px}
+.bar-row .track{height:10px; background:var(--grid); border-radius:5px; overflow:hidden}
+.bar-row .fill{height:100%; background:var(--accent); border-radius:5px}
+.bar-row .v{font-family:var(--mono); text-align:right}
+.src{font-size:13px; color:var(--muted)}
+.src a{color:var(--accent)}
+footer{border-top:1px solid var(--line); padding-top:20px; display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--muted)}
+footer a{color:var(--accent)}
+@media (prefers-reduced-motion: no-preference){ .dot{transition:cx .35s ease, cy .35s ease} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">Zimran IT School · Test assignment · Task 2, interactive</p>
+  <h1>Find the deal where both sides earn</h1>
+  <p class="lede">zimran.test pays traffic partners for leads. A deal only lasts if our 6-month ROI and the partner's ROI are both above zero. Move the levers and watch each campaign travel across the chart. It opens on my proposed deal. Press “Week-1 actual” to see today.</p>
+  <p class="byline"><span>By <b>Aisulu Igimbayeva</b></span><span>Data: week-0 test data, 14,966 clicks</span><span>Same formulas as the Excel file</span></p>
+</header>
+
+<section class="tool" aria-label="Deal simulator">
+  <div class="panels">
+    <div class="presets" role="group" aria-label="Scenarios">
+      <button id="preset-actual" type="button" aria-pressed="false">Week-1 actual</button>
+      <button id="preset-proposal" type="button" aria-pressed="true">My proposal</button>
+      <button id="preset-cheap" type="button" aria-pressed="false">Only cut payouts</button>
+    </div>
+    <div id="panels"></div>
+  </div>
+  <div class="chart-card">
+    <div class="panel-head"><h3>Our ROI vs partner ROI</h3><small>6-month horizon</small></div>
+    <svg id="quad" viewBox="0 0 560 420" role="img" aria-label="Scatter chart of our ROI against partner ROI for three campaigns"></svg>
+    <div class="legend"><span>Hollow ring = week-1 actual</span><span>Filled dot = current levers</span><span>Shaded = win-win zone</span></div>
+    <div class="totals">
+      <div class="total"><span>Our weekly profit</span><b id="t-us" class="num">$0</b></div>
+      <div class="total"><span>Partners' weekly profit</span><b id="t-them" class="num">$0</b></div>
+    </div>
+    <p class="verdict" id="verdict"></p>
+  </div>
+</section>
+
+<section style="display:flex; flex-direction:column; gap:16px">
+  <h2>The numbers behind the dots</h2>
+  <div class="tbl"><table id="tbl"></table></div>
+  <p class="src">Lead = registered, male, 35+, from the US, Canada, UK, Australia or New Zealand. Income for 6 months = registrations × week-0 ARPU × return multiplier (8.3 desktop, 4 mobile). Partner №2 sends both desktop and mobile traffic, so its multiplier is blended by registrations: 733 desktop and 394 mobile, which gives ×6.80.</p>
+</section>
+
+<section class="insight" aria-label="What the simulator shows">
+  <article><h3>Every deal has a price window</h3><p>A partner needs at least its cost per lead. We can pay at most our 6-month income per lead. Partner №1 desktop has no window at week-1 quality: the partner needs $8.12 and we can afford $8.00. Prices alone cannot fix it.</p></article>
+  <article><h3>On CPA, conversion helps the partner</h3><p>Raise landing conversion on a CPA campaign and our ROI stays flat, because income and cost both scale with leads. The partner's ROI climbs. On the CPC deal it works the other way round.</p></article>
+  <article><h3>Our best campaign is about to quit</h3><p>Partner №1 mobile returns +117% for us but loses 21% for the partner. Paying $5.00 instead of $3.50 keeps it alive and still returns about +52%.</p></article>
+</section>
+
+<section class="extras" aria-label="More from the application">
+  <div class="extra">
+    <p class="eyebrow">Earlier work · a Zimran product</p>
+    <h3>Finelo support analytics</h3>
+    <p class="src">I scraped 14,983 Google Play reviews of Finelo (Oct 2024 to Jun 2026) and classified the 1,110 that mention support, billing or the Help Center.</p>
+    <div class="kpis">
+      <div class="kpi"><b>4.2★</b><span>overall rating</span></div>
+      <div class="kpi"><b>6 min</b><span>median first reply</span></div>
+      <div class="kpi"><b>82%</b><span>could be self-served</span></div>
+    </div>
+    <div class="bars" id="finelo-bars"></div>
+    <p class="src">Takeaway: support replies fast, but most tickets are about subscription, refund and surprise-charge questions a clearer Help Center could answer, the same "surprise renewal" risk Spotify manages with transparent plans.</p>
+  </div>
+  <div class="extra">
+    <p class="eyebrow">Task 1 in one card</p>
+    <h3>Spotify, reverse-engineered</h3>
+    <div class="kpis">
+      <div class="kpi"><b>39%</b><span>of 777M users pay</span></div>
+      <div class="kpi"><b>8.3%</b><span>of revenue on marketing</span></div>
+      <div class="kpi"><b>~57%</b><span>of revenue to rights holders</span></div>
+    </div>
+    <p class="src">Acquisition is product-led: the free tier, Wrapped (630M shares in 2025), bundles and artists bring users in. Conversion comes from friction at the moment of intent, a $0 first month and a price for every wallet. Retention: the Family plan makes cancelling a household decision, which keeps churn near 2% a month.</p>
+    <p class="src">Sources: <a href="https://s29.q4cdn.com/175625835/files/doc_financials/2025/q4/Q4-2025-Shareholder-Deck-FINAL.pdf" target="_blank" rel="noopener">Spotify Q4 2025 shareholder deck</a> · <a href="https://www.stocktitan.net/sec-filings/SPOT/6-k-spotify-technology-s-a-current-report-foreign-issuer-fe4e7fbd8635.html" target="_blank" rel="noopener">Q2 2026 6-K</a> · <a href="https://newsroom.spotify.com/2026-01-28/2025-music-industry-payouts-whats-next-for-artists/" target="_blank" rel="noopener">$11B payouts</a></p>
+  </div>
+</section>
+
+<footer>
+  <p>Built by Aisulu Igimbayeva for the Zimran IT School selection process, 2026. The full answers are in the presentation and the Excel file (sheets “Task 1”, “Answers” and “What-if”).</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  const P = [
+    {id:'d', name:'Partner №1 desktop', short:'P№1 desktop', model:'CPA', imp:413596, clicks:3467, regs:353, leads:326, arpu:0.89, mult:8.3, payout:9.00, price:6.40, priceLabel:'CPM', pMin:5, pMax:12, pStep:0.1},
+    {id:'m', name:'Partner №1 mobile',  short:'P№1 mobile',  model:'CPA', imp:601127, clicks:4020, regs:333, leads:317, arpu:1.81, mult:4,   payout:3.50, price:2.34, priceLabel:'CPM', pMin:2, pMax:9, pStep:0.1},
+    {id:'c', name:'Partner №2',         short:'P№2 CPC',     model:'CPC', imp:140325, clicks:7479, regs:1127, leads:911, arpu:0.33, mult:(733*8.3+394*4)/1127, payout:0.33, price:0.23, priceLabel:'CPC', pMin:0.18, pMax:0.45, pStep:0.01}
+  ];
+  const presets = {
+    actual:   {d:{payout:9.00,ctr:0,lp:0}, m:{payout:3.50,ctr:0,lp:0}, c:{payout:0.33,ctr:0,lp:0}},
+    proposal: {d:{payout:7.60,ctr:15,lp:10}, m:{payout:5.00,ctr:0,lp:0}, c:{payout:0.30,ctr:0,lp:0}},
+    cheap:    {d:{payout:7.60,ctr:0,lp:0}, m:{payout:3.50,ctr:0,lp:0}, c:{payout:0.30,ctr:0,lp:0}}
+  };
+  let state = JSON.parse(JSON.stringify(presets.proposal));
+
+  const fmt$ = (v,d=2) => (v<0?'−$':'$') + Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:d, maximumFractionDigits:d});
+  const fmtPct = v => (v>=0?'+':'−') + Math.abs(v*100).toFixed(1) + '%';
+  const fmtN = v => Math.round(v).toLocaleString('en-US');
+
+  function calc(p, s){
+    const clicks = p.clicks*(1+s.ctr/100);
+    const regs = clicks*(p.regs/p.clicks)*(1+s.lp/100);
+    const leads = regs*(p.leads/p.regs);
+    const cost = p.model==='CPA' ? leads*s.payout : clicks*s.payout;
+    const income = regs*p.arpu*p.mult;
+    const budget = p.model==='CPA' ? p.imp*p.price/1000 : clicks*p.price;
+    const unit = p.model==='CPA' ? leads : clicks;
+    return {clicks, regs, leads, cost, income, budget,
+      ourROI:(income-cost)/cost, partnerROI:(cost-budget)/budget,
+      ourProfit:income-cost, partnerProfit:cost-budget,
+      floor:budget/unit, ceil:income/unit};
+  }
+  const base = {}; P.forEach(p=>{ base[p.id] = calc(p, presets.actual[p.id]); });
+
+  // panels
+  const host = document.getElementById('panels');
+  host.innerHTML = P.map(p => `
+    <div class="panel" id="panel-${p.id}">
+      <div class="panel-head"><h3>${p.name}</h3><small>${p.model==='CPA'?'pays per lead':'pays per click'} · buys at ${p.priceLabel} ${fmt$(p.price)}</small></div>
+      <div class="ctrl"><label for="${p.id}-payout">What we pay per ${p.model==='CPA'?'lead':'click'}</label><output id="${p.id}-payout-o" for="${p.id}-payout"></output>
+        <input type="range" id="${p.id}-payout" min="${p.pMin}" max="${p.pMax}" step="${p.pStep}"></div>
+      <div class="ctrl"><label for="${p.id}-ctr">Partner CTR uplift</label><output id="${p.id}-ctr-o" for="${p.id}-ctr"></output>
+        <input type="range" id="${p.id}-ctr" min="-20" max="50" step="5"></div>
+      <div class="ctrl"><label for="${p.id}-lp">Landing-page conversion uplift</label><output id="${p.id}-lp-o" for="${p.id}-lp"></output>
+        <input type="range" id="${p.id}-lp" min="-20" max="50" step="5"></div>
+      <div class="zone"><div class="zone-bar" id="${p.id}-zone"><div class="zone-fill"></div><div class="zone-mark"></div></div><p class="zone-text" id="${p.id}-zone-t"></p></div>
+      <div class="rois"><div class="chip" id="${p.id}-us"><span>Our ROI</span><b></b></div><div class="chip" id="${p.id}-them"><span>Partner ROI</span><b></b></div></div>
+    </div>`).join('');
+
+  P.forEach(p => ['payout','ctr','lp'].forEach(k => {
+    const el = document.getElementById(`${p.id}-${k}`);
+    el.addEventListener('input', () => { state[p.id][k] = parseFloat(el.value); setPressed(null); render(); });
+  }));
+
+  function setPressed(name){
+    ['actual','proposal','cheap'].forEach(n => document.getElementById('preset-'+n).setAttribute('aria-pressed', String(n===name)));
+  }
+  ['actual','proposal','cheap'].forEach(n => document.getElementById('preset-'+n).addEventListener('click', () => {
+    state = JSON.parse(JSON.stringify(presets[n])); setPressed(n); render();
+  }));
+
+  // chart
+  const W=560, H=420, L=56, R=16, T=16, B=44;
+  const xMin=-40, xMax=80, yMin=-40, yMax=140;
+  const sx = v => L + (Math.max(xMin,Math.min(xMax,v))-xMin)/(xMax-xMin)*(W-L-R);
+  const sy = v => T + (yMax-Math.max(yMin,Math.min(yMax,v)))/(yMax-yMin)*(H-T-B);
+  const svg = document.getElementById('quad');
+  const NS='http://www.w3.org/2000/svg';
+  const mk = (tag, attrs, parent=svg) => { const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+  mk('rect',{x:sx(0),y:T,width:sx(xMax)-sx(0),height:sy(0)-T,style:'fill:var(--zone)'});
+  for(let x=-40;x<=80;x+=20){ mk('line',{x1:sx(x),x2:sx(x),y1:T,y2:H-B,style:'stroke:var(--grid);stroke-width:1'}); const t=mk('text',{x:sx(x),y:H-B+18,'text-anchor':'middle',style:'fill:var(--muted);font:12px IBM Plex Mono, monospace'}); t.textContent=(x>0?'+':'')+x+'%'; }
+  for(let y=-40;y<=140;y+=20){ mk('line',{x1:L,x2:W-R,y1:sy(y),y2:sy(y),style:'stroke:var(--grid);stroke-width:1'}); const t=mk('text',{x:L-8,y:sy(y)+4,'text-anchor':'end',style:'fill:var(--muted);font:12px IBM Plex Mono, monospace'}); t.textContent=(y>0?'+':'')+y+'%'; }
+  mk('line',{x1:sx(0),x2:sx(0),y1:T,y2:H-B,style:'stroke:var(--muted);stroke-width:1.5'});
+  mk('line',{x1:L,x2:W-R,y1:sy(0),y2:sy(0),style:'stroke:var(--muted);stroke-width:1.5'});
+  const zl=mk('text',{x:W-R-8,y:T+18,'text-anchor':'end',style:'fill:var(--accent);font:600 12px IBM Plex Sans, sans-serif;letter-spacing:.1em'}); zl.textContent='WIN-WIN ZONE';
+  const xl=mk('text',{x:W-R,y:H-6,'text-anchor':'end',style:'fill:var(--muted);font:12px IBM Plex Sans, sans-serif'}); xl.textContent='Partner ROI →';
+  const yl=mk('text',{x:L+6,y:T+14,style:'fill:var(--muted);font:12px IBM Plex Sans, sans-serif'}); yl.textContent='↑ Our ROI';
+  const marks = {};
+  P.forEach(p => {
+    const b = base[p.id];
+    marks[p.id] = {
+      link: mk('line',{style:'stroke:var(--accent);stroke-width:1.5;stroke-dasharray:4 4;opacity:.6'}),
+      ring: mk('circle',{cx:sx(b.partnerROI*100),cy:sy(b.ourROI*100),r:7,style:'fill:var(--surface);stroke:var(--loss);stroke-width:3'}),
+      dot:  mk('circle',{class:'dot',r:8,style:'fill:var(--accent);stroke:var(--surface);stroke-width:2'}),
+      label:mk('text',{style:'fill:var(--ink);font:600 12px IBM Plex Sans, sans-serif'})
+    };
+  });
+
+  // Finelo bars
+  const themes=[['Subscription & cancellation',476],['Refund requests',443],['Billing & surprise charges',413],['Scam / trust concerns',395],['Content & lessons',193]];
+  document.getElementById('finelo-bars').innerHTML = themes.map(([k,v])=>`<div class="bar-row"><span>${k}</span><div class="track"><div class="fill" style="width:${v/476*100}%"></div></div><span class="v">${v}</span></div>`).join('');
+
+  function render(){
+    let us=0, them=0, wins=0;
+    const rows = {};
+    P.forEach(p => {
+      const s = state[p.id], r = calc(p, s);
+      rows[p.id]=r; us+=r.ourProfit; them+=r.partnerProfit; if(r.ourROI>0 && r.partnerROI>0) wins++;
+      const set=(k,v)=>{document.getElementById(`${p.id}-${k}`).value=v;};
+      set('payout',s.payout); set('ctr',s.ctr); set('lp',s.lp);
+      document.getElementById(`${p.id}-payout-o`).textContent = fmt$(s.payout);
+      document.getElementById(`${p.id}-ctr-o`).textContent = (s.ctr>0?'+':'')+s.ctr+'%';
+      document.getElementById(`${p.id}-lp-o`).textContent = (s.lp>0?'+':'')+s.lp+'%';
+      [['us',r.ourROI],['them',r.partnerROI]].forEach(([k,v])=>{ const c=document.getElementById(`${p.id}-${k}`); c.className='chip '+(v>0?'pos':'neg'); c.querySelector('b').textContent=fmtPct(v)+(v>0?'':' loss'); });
+      // price window
+      const bar=document.getElementById(`${p.id}-zone`), lo=p.pMin, hi=p.pMax, pct=v=>Math.max(0,Math.min(100,(v-lo)/(hi-lo)*100));
+      const fill=bar.querySelector('.zone-fill'), mark=bar.querySelector('.zone-mark');
+      const has = r.ceil > r.floor;
+      fill.style.left = pct(Math.min(r.floor,r.ceil))+'%'; fill.style.width = (pct(Math.max(r.floor,r.ceil))-pct(Math.min(r.floor,r.ceil)))+'%';
+      fill.style.opacity = has ? 1 : .35; mark.style.left = pct(s.payout)+'%';
+      const unit = p.model==='CPA'?'lead':'click';
+      document.getElementById(`${p.id}-zone-t`).innerHTML = has
+        ? `Price window: <b>${fmt$(r.floor)} – ${fmt$(r.ceil)}</b> per ${unit}. Below the low end the partner loses; above the high end we lose.`
+        : `No price window: the partner needs <b>${fmt$(r.floor)}</b> per ${unit} but we can pay at most <b>${fmt$(r.ceil)}</b>. Traffic quality has to improve.`;
+      // chart
+      const m=marks[p.id], x=sx(r.partnerROI*100), y=sy(r.ourROI*100), b=base[p.id];
+      m.dot.setAttribute('cx',x); m.dot.setAttribute('cy',y);
+      m.link.setAttribute('x1',sx(b.partnerROI*100)); m.link.setAttribute('y1',sy(b.ourROI*100)); m.link.setAttribute('x2',x); m.link.setAttribute('y2',y);
+      const right = x < W-150;
+      m.label.setAttribute('x', right? x+12 : x-12); m.label.setAttribute('y', p.id==='d' ? y+24 : y-12); m.label.setAttribute('text-anchor', right?'start':'end');
+      m.label.textContent = `${p.short} ${fmtPct(r.ourROI)} / ${fmtPct(r.partnerROI)}`;
+    });
+    document.getElementById('t-us').textContent = fmt$(us,0);
+    document.getElementById('t-them').textContent = fmt$(them,0);
+    document.getElementById('verdict').innerHTML = `<b>${wins} of 3</b> campaigns are win-win with these levers.` + (wins<3 ? ' A campaign outside the shaded zone will not last: one side stops.' : ' Every deal can last.');
+    // table
+    const lines = [
+      ['Clicks', r=>fmtN(r.clicks)], ['Registrations', r=>fmtN(r.regs)], ['Leads', r=>fmtN(r.leads)],
+      ['Our cost', r=>fmt$(r.cost)], ['Our 6-month income', r=>fmt$(r.income)], ['Our ROI', r=>fmtPct(r.ourROI)],
+      ['Partner ad budget', r=>fmt$(r.budget)], ['Partner income', r=>fmt$(r.cost)], ['Partner ROI', r=>fmtPct(r.partnerROI)]
+    ];
+    document.getElementById('tbl').innerHTML = `<thead><tr><th>Metric</th>${P.map(p=>`<th>${p.short}</th>`).join('')}</tr></thead><tbody>` +
+      lines.map(([k,f])=>`<tr><td>${k}</td>${P.map(p=>`<td>${f(rows[p.id])}</td>`).join('')}</tr>`).join('') + '</tbody>';
+  }
+  render();
+})();
+</script>
+</body>
+</html>
